@@ -28,6 +28,7 @@ BumpGo::BumpGo()
 {
   sub_bumper_ = n_.subscribe(mobile_base/events/bumper);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>(mobile_base/events/bumper);
+
 }
 
 void
