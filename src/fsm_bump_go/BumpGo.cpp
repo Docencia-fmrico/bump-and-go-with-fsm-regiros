@@ -26,6 +26,7 @@ BumpGo::BumpGo()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
+
   sub_bumper_ = n_.subscribe(mobile_base/events/bumper);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>(mobile_base/events/bumper);
 
@@ -71,7 +72,7 @@ BumpGo::step()
       break;
     case TURNING:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.66;
+      cmd.angular.z = -0.66;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
