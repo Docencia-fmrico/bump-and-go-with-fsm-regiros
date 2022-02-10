@@ -26,7 +26,7 @@ BumpGo::BumpGo()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
-  // sub_bumber_ = n_.subscribe(...);
+  // sub_bumber_ = n_.subscribe(mobile_base/events/bumper); 
   // pub_vel_ = n_.advertise<...>(...)
 }
 
