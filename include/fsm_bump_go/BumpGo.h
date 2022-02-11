@@ -44,7 +44,9 @@ private:
   int state_;
 
   bool pressed_;
-
+  
+  int side_;
+  
   ros::Time press_ts_;
   ros::Time turn_ts_;
 
