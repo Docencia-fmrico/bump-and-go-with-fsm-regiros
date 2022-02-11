@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  kobuki_msgs
   roslint
 )
 

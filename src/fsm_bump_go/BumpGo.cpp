@@ -26,15 +26,14 @@ BumpGo::BumpGo()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
-  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, bumperCallback);
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1)
+  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGo::bumperCallback, this);
+  pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }
 
 void
 BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  pressed_ = msg->data;
-  //  ...
+  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
 }
 
 void
