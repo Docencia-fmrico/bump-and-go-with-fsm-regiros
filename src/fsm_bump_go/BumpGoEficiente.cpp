@@ -34,6 +34,7 @@ void
 BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
+  side_ = msg->bumper == kobuki_msgs::BumperEvent::PRESSED;
 }
 
 void
@@ -70,7 +71,14 @@ BumpGo::step()
     case TURNING:
 
       cmd.linear.x = 0;
-      cmd.angular.z = -0.66;
+
+      if(side_ == 0)
+      {
+        cmd.angular.z = -0.66;
+      }else
+      {
+        cmd.angular.z = 0.66;
+      }
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
