@@ -12,33 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/BumpGo.h"
-
+//#include "fsm_bump_go/BumpGo.h"
+/*
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
-
+*/
 #include "ros/ros.h"
+
+#include "fsm_bump_go/BumpGoEficiente.h"
 
 namespace fsm_bump_go
 {
 
-BumpGo::BumpGo()
-: state_(GOING_FORWARD),
-  pressed_(false)
+BumpGoEficiente::BumpGoEficiente()
+:BumpGo(),
+  side_(0)
 {
-  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGo::bumperCallback, this);
+  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGoEficiente::bumperCallback, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }
 
 void
-BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+BumpGoEficiente::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
-  side_ = msg->bumper == kobuki_msgs::BumperEvent::PRESSED;
+  side_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT;
 }
 
 void
-BumpGo::step()
+BumpGoEficiente::step()
 {
   geometry_msgs::Twist cmd;
 
@@ -72,7 +74,7 @@ BumpGo::step()
 
       cmd.linear.x = 0;
 
-      if(side_ == 0)
+      if(side_ == 1)
       {
         cmd.angular.z = -0.66;
       }else
