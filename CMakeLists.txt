@@ -36,5 +36,6 @@ roslint_cpp(
  src/fsm_bump_go/BumpGo.cpp
  src/fsm_bump_go/BumpGoEficiente.cpp
  include/fsm_bump_go/BumpGo.h
+ include/fsm_bump_go/BaseDetected.h
  include/fsm_bump_go/BumpGoEficiente.h
 )

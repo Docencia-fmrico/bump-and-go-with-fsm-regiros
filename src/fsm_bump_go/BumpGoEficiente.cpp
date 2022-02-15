@@ -12,11 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//#include "fsm_bump_go/BumpGo.h"
-/*
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
-*/
 #include "ros/ros.h"
 
 #include "fsm_bump_go/BumpGoEficiente.h"
@@ -25,11 +20,11 @@ namespace fsm_bump_go
 {
 
 BumpGoEficiente::BumpGoEficiente()
-:BumpGo(),
+: BaseDetected(),
+  pressed_(false),
   side_(0)
 {
   sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGoEficiente::bumperCallback, this);
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
 }
 
 void

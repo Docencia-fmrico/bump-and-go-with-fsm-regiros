@@ -15,19 +15,12 @@
 #ifndef FSM_BUMP_GO_BUMPGOEFICIENTE_H
 #define FSM_BUMP_GO_BUMPGOEFICIENTE_H
 
-/*
-#include "ros/ros.h"
-
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
-*/
-
-#include "BumpGo.h"
+#include "BaseDetected.h"
 
 namespace fsm_bump_go
 {
 
-class BumpGoEficiente : public BumpGo
+class BumpGoEficiente : public BaseDetected
 {
 public:
   BumpGoEficiente();
@@ -39,7 +32,13 @@ private:
 
   int side_;
 
-};
-  // namespace fsm_bump_go
-}
+  bool pressed_;
+
+  ros::Time press_ts_;
+
+  ros::Subscriber sub_bumber_;
+
+};  
+}// namespace fsm_bump_go
+
 #endif  // FSM_BUMP_GO_BUMPGOEFICIENTE_H
