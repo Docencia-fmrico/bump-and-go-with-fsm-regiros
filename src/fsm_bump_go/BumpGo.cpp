@@ -19,12 +19,15 @@
 
 #include "ros/ros.h"
 
+#include "fsm_bump_go/BumpGo.h"
+
+
 namespace fsm_bump_go
 {
 
 BumpGo::BumpGo()
-: state_(GOING_FORWARD),
-  pressed_(false)
+:state_(GOING_FORWARD),
+pressed_(false)
 {
   sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGo::bumperCallback, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
