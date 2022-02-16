@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="fsm_bump_go" type="bumpgoeficiente_node" name="BumpGoEficiente_Node" output="screen"/>
+</launch>
