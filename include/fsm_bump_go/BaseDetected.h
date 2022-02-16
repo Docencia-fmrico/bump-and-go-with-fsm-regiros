@@ -16,8 +16,6 @@
 #define FSM_BUMP_GO_BASEDETECTED_H
 
 #include "ros/ros.h"
-
-#include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
 
 namespace fsm_bump_go
@@ -32,15 +30,15 @@ public:
         pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
    }
 
-  //virtual void detectedCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)=0;
   virtual void step()=0;
 
 protected:
   ros::NodeHandle n_;
 
-  static const int GOING_FORWARD   = 0;
+  static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
-  static const int TURNING = 2;
+  static const int TURNING_RIGHT = 2;
+  static const int TURNING_LEFT = 3;
 
   static constexpr double TURNING_TIME = 3.0;
   static constexpr double BACKING_TIME = 3.0;

@@ -12,42 +12,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "fsm_bump_go/Laser.h"
 #include "ros/ros.h"
-
-#include "fsm_bump_go/BumpGoEficiente.h"
 
 namespace fsm_bump_go
 {
 
-BumpGoEficiente::BumpGoEficiente()
-: BaseDetected(),
-  pressed_(false),
-  side_(0)
-{
-  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGoEficiente::bumperCallback, this);
-}
+  Laser::Laser()
+  : BaseDetected(),
+  detected_(false)
+  {
+      sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::Laser::laserCallback, this);
+  }
+  
+  void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
+  {
+    int start_detection = 0;
+    int end_detection = msg->ranges.size();
+    middle_position_ = msg->ranges.size() / 2;
+    int i = start_detection;
+    detected_=false;
+    std::cout << "tamaño: " << msg->ranges.size() << std::endl;
+    while ((!detected_) && (i < end_detection) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
+    {
+      detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
+      object_position_ = i;
+      i++;
+    } 
+  }
 
-void
-BumpGoEficiente::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
-{
-  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
-  side_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT;
-}
+  void Laser::step()
+  {
+    geometry_msgs::Twist cmd;
 
-void
-BumpGoEficiente::step()
-{
-  geometry_msgs::Twist cmd;
-
-  switch (state_)
+    switch (state_)
   {
     case GOING_FORWARD:
       cmd.linear.x = 0.1;
       cmd.angular.z = 0;
 
-      if (pressed_)
+      if (detected_)
       {
-        press_ts_ = ros::Time::now();
+        laserdetect_ts_ = ros::Time::now();
         state_ = GOING_BACK;
         ROS_INFO("GOING_FORWARD -> GOING_BACK");
       }
@@ -57,18 +63,20 @@ BumpGoEficiente::step()
       cmd.linear.x = -0.1;
       cmd.angular.z = 0;
 
-      if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+      if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
-        if(side_ == 1)
+        std::cout << object_position_<<std::endl;
+        if( object_position_ > middle_position_)
         {
           state_ = TURNING_RIGHT;
+          ROS_INFO("GOING_BACK -> TURNING_RIGHT");
         }
         else
         {
           state_ = TURNING_LEFT;
+          ROS_INFO("GOING_BACK -> TURNING_LEFT");
         }
-        ROS_INFO("GOING_BACK -> TURNING");
       }
 
       break;
@@ -96,6 +104,7 @@ BumpGoEficiente::step()
     }
 
     pub_vel_.publish(cmd);
-}
 
-}  // namespace fsm_bump_go
+  }
+
+} // namespace fsm_bump_go
