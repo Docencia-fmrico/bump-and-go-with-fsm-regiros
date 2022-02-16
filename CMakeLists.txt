@@ -39,3 +39,8 @@ roslint_cpp(
  include/fsm_bump_go/BaseDetected.h
  include/fsm_bump_go/BumpGoEficiente.h
 )
+catkin_add_gtest(BumpGo_Test tests/BumpGo_Test.cpp)
+add_dependencies(BumpGo_Test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+if(TARGET BumpGo_Test)
+  target_link_libraries(BumpGo_Test ${catkin_LIBRARIES} ${PROJECT_NAME})
+endif()
