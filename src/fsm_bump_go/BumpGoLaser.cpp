@@ -41,12 +41,19 @@ namespace fsm_bump_go
 
     std::cout << "tamaño: " << msg->ranges.size() << std::endl;
 
-    while ((!detected_) && (min_pos < i < max_pos) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
+    for(int j = min_pos; j < max_pos; j++){
+      if(msg->ranges[i] < DISTANCE_DETECT){
+        detected_ = msg->ranges[i];
+        object_position_ = j;
+        break;
+      }
+    }
+    /*while ((!detected_) && (min_pos < i < max_pos) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
     {
       detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
       object_position_ = i;
       i++;
-    } 
+    } */
   }
 
   void Laser::step()
