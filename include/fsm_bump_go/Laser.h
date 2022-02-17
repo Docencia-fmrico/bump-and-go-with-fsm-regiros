@@ -33,6 +33,10 @@ namespace fsm_bump_go
       bool detected_;
       float DISTANCE_DETECT = 0.6;
 
+      float cte = msg->range.size() / 360;
+      //float angle_min = 3.14/4
+      //float angle_max = 3.14*3/4
+
       int middle_position_;
       int object_position_;
 
