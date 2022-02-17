@@ -55,7 +55,6 @@ namespace fsm_bump_go
     switch (state_)
   {
     case GOING_FORWARD:
-      std::cout << "VELOCIDAD: " << fordward_vel << std::endl;
       cmd.linear.x = fordward_vel;
       cmd.angular.z = 0;
 

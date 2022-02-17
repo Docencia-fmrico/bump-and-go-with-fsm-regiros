@@ -44,7 +44,6 @@ BumpGoEficiente::step()
     case GOING_FORWARD:
     
       cmd.linear.x = fordward_vel;
-      std::cout << "VELOCIDAD: " << cmd.linear.x << std::endl;
       cmd.angular.z = 0;
 
       if (pressed_)

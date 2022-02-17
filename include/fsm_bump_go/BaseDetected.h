@@ -36,7 +36,7 @@ public:
     n_.getParam("turning_right_vel", turning_right_vel);
     n_.getParam("turning_left_vel", turning_left_vel);
 
-    pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
+    pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
   }
    
   virtual void step()=0;
