@@ -27,7 +27,7 @@ namespace fsm_bump_go
   
   void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    int start_detection = 0;
+    /*int start_detection = 0;
     int end_detection = msg->ranges.size();
     middle_position_ = msg->ranges.size() / 2;
     int i = start_detection;
@@ -38,7 +38,27 @@ namespace fsm_bump_go
       detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
       object_position_ = i;
       i++;
-    } 
+    } */
+    /*float dist_scan = msg->range_max;
+    detected_ = false;
+    for(int i = 10; i < msg->ranges.size();i++)
+    {
+      if(msg->ranges[i] < dist_scan)
+      {
+        dist_scan = msg->ranges[i];
+        detected_ = true;
+        std::cout << "medida: " << msg->ranges[i] << std::endl;
+      }
+    }
+    for(int i = 0; i < 11;i++)
+    {
+      if(msg->ranges[i] < dist_scan)
+      {
+        dist_scan = msg->ranges[i];
+        detected_ = true;
+      }
+    }*/
+
   }
 
   void Laser::step()
@@ -48,7 +68,7 @@ namespace fsm_bump_go
     switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.1;
+      cmd.linear.x = 0.1*0;
       cmd.angular.z = 0;
 
       if (detected_)
@@ -60,7 +80,7 @@ namespace fsm_bump_go
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1;
+      cmd.linear.x = -0.1*0;
       cmd.angular.z = 0;
 
       if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
@@ -83,7 +103,7 @@ namespace fsm_bump_go
     case TURNING_RIGHT:
 
       cmd.linear.x = 0;
-      cmd.angular.z = -0.66;
+      cmd.angular.z = -0.66*0;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -93,7 +113,7 @@ namespace fsm_bump_go
       break;
     case TURNING_LEFT:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.66;
+      cmd.angular.z = 0.66*0;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
