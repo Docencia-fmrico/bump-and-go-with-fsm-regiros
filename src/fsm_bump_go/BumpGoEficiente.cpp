@@ -12,43 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/BumpGo.h"
-
-#include "kobuki_msgs/BumperEvent.h"
-#include "geometry_msgs/Twist.h"
-
 #include "ros/ros.h"
 
-#include "fsm_bump_go/BumpGo.h"
-
+#include "fsm_bump_go/BumpGoEficiente.h"
 
 namespace fsm_bump_go
 {
 
-BumpGo::BumpGo()
-:state_(GOING_FORWARD),
-pressed_(false)
+BumpGoEficiente::BumpGoEficiente()
+: BaseDetected(),
+  pressed_(false),
+  side_(0)
 {
-  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGo::bumperCallback, this);
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
+  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGoEficiente::bumperCallback, this);
 }
 
 void
-BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+BumpGoEficiente::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
-<<<<<<< HEAD
-  //izquierda = 0
-  //centro = 1
-  //derecha = 2
-
-  //
-=======
->>>>>>> 91a33c14ace0ba66fa42eea2f3cf21f144d92e1d
+  side_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT;
 }
 
 void
-BumpGo::step()
+BumpGoEficiente::step()
 {
   geometry_msgs::Twist cmd;
 
@@ -73,12 +60,19 @@ BumpGo::step()
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
-        state_ = TURNING;
+        if(side_ == 1)
+        {
+          state_ = TURNING_RIGHT;
+        }
+        else
+        {
+          state_ = TURNING_LEFT;
+        }
         ROS_INFO("GOING_BACK -> TURNING");
       }
 
       break;
-    case TURNING:
+    case TURNING_RIGHT:
 
       cmd.linear.x = 0;
       cmd.angular.z = -0.66;
@@ -86,7 +80,17 @@ BumpGo::step()
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
-        ROS_INFO("TURNING -> GOING_FORWARD");
+        ROS_INFO("TURNING_RIGHT -> GOING_FORWARD");
+      }
+      break;
+    case TURNING_LEFT:
+      cmd.linear.x = 0;
+      cmd.angular.z = 0.66;
+
+      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      {
+        state_ = GOING_FORWARD;
+        ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
       }
       break;
     }
