@@ -63,12 +63,13 @@ BumpGoEficiente::step()
         if(side_ == 1)
         {
           state_ = TURNING_RIGHT;
+          ROS_INFO("GOING_BACK -> TURNING_RIGHT");
         }
         else
         {
           state_ = TURNING_LEFT;
+          ROS_INFO("GOING_BACK -> TURNING_LEFT");
         }
-        ROS_INFO("GOING_BACK -> TURNING");
       }
 
       break;
