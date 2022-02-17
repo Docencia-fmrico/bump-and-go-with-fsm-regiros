@@ -12,34 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_BUMPGOEFICIENTE_H
-#define FSM_BUMP_GO_BUMPGOEFICIENTE_H
+#ifndef FSM_BUMP_GO_LASER_H
+#define FSM_BUMP_GO_LASER_H
 
 #include "BaseDetected.h"
-#include "kobuki_msgs/BumperEvent.h"
- 
+#include "sensor_msgs/LaserScan.h"
+
 namespace fsm_bump_go
 {
+  class Laser : public BaseDetected
+  {
+    public:
+      Laser();
 
-class BumpGoEficiente : public BaseDetected
-{
-public:
-  BumpGoEficiente();
+      void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
+      void step();
+    
+    private:
 
-  void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
+      bool detected_;
+      float DISTANCE_DETECT = 0.6;
 
-protected:
+      int middle_position_;
+      int object_position_;
 
-  int side_;
+      ros::Time laserdetect_ts_;
+      ros::Subscriber sub_laser_;
+  };
+} // namespace fsm_bump_go
 
-  bool pressed_;
-
-  ros::Time press_ts_;
-
-  ros::Subscriber sub_bumber_;
-
-};  
-}// namespace fsm_bump_go
-
-#endif  // FSM_BUMP_GO_BUMPGOEFICIENTE_H
+#endif  // FSM_BUMP_GO_LASER_H
