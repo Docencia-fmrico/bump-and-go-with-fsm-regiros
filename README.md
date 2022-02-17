@@ -12,9 +12,9 @@ En primer lugar, la versión 0, solo utiliza el bumper del kobuki, de forma que 
 Por otro lado, la versión 1, es una modificación de la versión 0 en la que se intenta esquivar obstáculos de manera inteligente.
 Por último, la versión 2, implementa la utilización del láser, con ello podemos esquivar objetos antes de detectarlos con el bumper.
 
-![kobuki](https://user-images.githubusercontent.com/90764701/154569800-4721feeb-aa69-4090-bc2b-75607d43e8b5.jpg)
+![kobuki](https://user-images.githubusercontent.com/90764701/154570504-dec4714e-e3a4-4ba8-bfc1-0cd0553e0da6.jpg)
 
-![kobuki con ordenador](https://user-images.githubusercontent.com/90764701/154569890-bc1347c2-e37a-4359-8829-c3bf567bdc93.jpg)
+![kobuki con ordenador](https://user-images.githubusercontent.com/90764701/154570436-daeb5a06-6168-405d-b3c9-3d36c738faed.jpg)
 
 
 ## 1. Version 0
