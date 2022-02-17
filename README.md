@@ -14,15 +14,15 @@ Por último, la versión 2, implementa la utilización del láser, con ello pode
 
 ## 1. Version 0
 
-### 1.0 Introducción
+### 1.0. Introducción
 
 En esta primera versión empezaremos a tomar contacto con uno de los sensores más sencillos del kobuki, el bumper. Este sensor detecta obstáculos por el contacto, emitiendo una señal de 0 cuando no hay contacto y de 1 cuando éste es detectado. De esta forma seremos capaces de  detectar cualquier objeto que se encuentre en el camino de nuestro kobuki.
 
-### 1.1 Objetivo
+### 1.1. Objetivo
 
 El objetivo de esta versión es que el kobuki sea capaz de navegar autonomamente sin quedarse atascado, esquivando los obstáculos de una forma sencilla, cuando choque contra ellos, retroceder y girar hacia un lado. 
 
-### 1.2 ¿Qué hemos hecho?
+### 1.2. ¿Qué hemos hecho?
 
 Para la práctica hemos implementado la herencia y creado este primer programa como base para los siguientes. En nuestro programa simplemente utilizamos una máquina de estados que varía cuando el kobuki detecta el contacto, retrocediendo, girando y nuevamente avanzando hasta volver a chocar.
 
@@ -33,8 +33,18 @@ En esta versión, implementamos una nueva clase virtual, BaseDetected, de la que
   ### [Video del funcionamiento de la version 1]()
 
 ## Version 2
-(Explicacion del funcionamiento del robot en la version 2, aqui puedes explicar la lógica empleada para el laser consultando los códigos ya que hay cambios realizados en cuanto a las variables utilizadas en las primeras pruebas)
-(Insertar video de funcionamiento al final)
+
+### 2.0. Introducción
+
+
+
+### 2.1. Objetivo
+
+
+
+### 2.2. ¿Qué hemos hecho?
+
+
   ### [Video del funcionamiento de la version 2](https://urjc-my.sharepoint.com/:v:/g/personal/da_quinga_2020_alumnos_urjc_es/ETAaWriBvK5HuAAXQX6tWpQBq08uD1GSxMVqdE8Hc-Z_mQ?e=NgtHHE)
   
 ## Observaciones
