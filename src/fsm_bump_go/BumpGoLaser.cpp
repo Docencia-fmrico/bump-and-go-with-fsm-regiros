@@ -27,23 +27,32 @@ namespace fsm_bump_go
   
   void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    int start_detection = 0;
+    //int start_detection = 0;
 
-    int min_pos = 45*cte;
-    int max_pos = 315*cte;
-
-    //int end_detection = msg->ranges.size();
-
-    int middle_position_ = 90*cte;
-    int i = start_detection;
+    //int min_pos = 45*cte;
+    //int max_pos = 315*cte;
+    //int min_pos = 45*(msg->ranges.size()/vuelta);
+    //int max_pos = 315*(msg->ranges.size()/vuelta);
+    //int i = start_detection;
     detected_=false;
-    
-    
 
-    //int ind = msg->ranges.size()/4;//lado derecho superior y en la posicion cero es en medio
-    //int ind = msg->ranges.size() - msg->ranges.size()/4;
-    //std::cout << "medida: " << msg->ranges[ind] << std::endl;
+    for(int j = 0; j < min_pos; j++){
+      if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+        detected_ = true;
+        object_position_ = j;
+        break;
+      }
+    }
 
+    if(!detected_){
+      for(int j = max_pos; j < msg->ranges.size(); j++){
+        if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+          detected_ = true;
+          object_position_ = j;
+          break;
+        }
+      }
+    }
   }
 
   void Laser::step()
@@ -71,8 +80,7 @@ namespace fsm_bump_go
       if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
-        std::cout << object_position_<<std::endl;
-        if( object_position_ > middle_position_)
+        if( max_pos < object_position_ && object_position_ < LONG_MED)
         {
           state_ = TURNING_RIGHT;
           ROS_INFO("GOING_BACK -> TURNING_RIGHT");

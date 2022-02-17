@@ -32,12 +32,15 @@ namespace fsm_bump_go
 
       bool detected_;
       float DISTANCE_DETECT = 0.5;
+      int LONG_MED = 760;
 
-      float cte = 760 / 360;
-      //float angle_min = 3.14/4
-      //float angle_max = 3.14*3/4
+      //float cte = 760 / 360;
+      float vuelta = 360;
 
-      int middle_position_;
+      int min_pos = 45*(LONG_MED/vuelta);
+      int max_pos = 315*(LONG_MED/vuelta);
+
+      //int middle_position_;
       int object_position_;
 
       ros::Time laserdetect_ts_;
