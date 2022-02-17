@@ -9,10 +9,11 @@ find_package(catkin REQUIRED COMPONENTS
   kobuki_msgs
   sensor_msgs
   roslint
+  geometry_msgs
 )
 
 catkin_package(
-CATKIN_DEPENDS roscpp std_msgs kobuki_msgs sensor_msgs
+CATKIN_DEPENDS roscpp std_msgs kobuki_msgs sensor_msgs geometry_msgs
 )
 
 include_directories(
@@ -52,4 +53,11 @@ catkin_add_gtest(BumpGoEficiente_Test tests/BumpGoEficiente_Test.cpp)
 add_dependencies(BumpGoEficiente_Test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 if(TARGET BumpGoEficiente_Test)
   target_link_libraries(BumpGoEficiente_Test ${catkin_LIBRARIES} ${PROJECT_NAME})
+endif()
+
+catkin_add_gtest(BumpGo_Test tests/BumpGo_Test.cpp)
+add_dependencies(BumpGo_Test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+if(TARGET BumpGo_Test)
+  target_link_libraries(BumpGo_Test ${catkin_LIBRARIES} ${PROJECT_NAME})
+
 endif()
