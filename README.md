@@ -1,7 +1,7 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=6870060&assignment_repo_type=AssignmentRepo)
 # fsm_bump_go
 
-## Introducción
+## 0. Introducción
 En esta práctica utilizaremos un robot y 2 de sus sensores (láser y bumper). Se implementarán 3 versiones para el desplazamiento del robot.
 Nombre del robot -> Kobuki
 Nombre del láser -> Rplidar
@@ -13,12 +13,23 @@ Nombre del laser -> Rplidar
 (Dejo los nombres de los componentes utilizados para que los definas como tal)
 (Insertar foto del robot al final y foto del robot con el portatil encima)
 
-## Version 0
-(Explicacion del funcionamiento del robot en la version 0, es decir lo que deberia hacer en esta version y lo que hace)
+## 1. Version 0
+
+### 1.0 Introducción
+
+En esta primera versión empezaremos a tomar contacto con uno de los sensores más sencillos del kobuki, el bumper. Este sensor detecta obstáculos por el contacto, emitiendo una señal de 0 cuando no hay contacto y de 1 cuando éste es detectado. De esta forma seremos capaces de  detectar cualquier objeto que se encuentre en el camino de nuestro kobuki.
+
+### 1.1 Objetivo
+
+El objetivo de esta versión es que el kobuki sea capaz de navegar autonomamente sin quedarse atascado, esquivando los obstáculos de una forma sencilla, cuando choque contra ellos, retroceder y girar hacia un lado. 
+
+### 1.2 ¿Qué hemos hecho?
+
+Para la práctica hemos implementado la herencia y creado este primer programa como base para los siguientes. En nuestro programa simplemente utilizamos una máquina de estados que varía cuando el kobuki detecta el contacto, retrocediendo, girando y nuevamente avanzando hasta volver a chocar.
 
   ### [Video del funcionamiento de la version 0](https://urjc-my.sharepoint.com/:v:/g/personal/da_quinga_2020_alumnos_urjc_es/ERZZHS94AaRIvg1dBxt_WscB_xtm80WHpZEaWqBEXvW4LQ?e=JcuD3L)
   
-## Version 1
+## 2. Version 1
 (Explicacion del funcionamiento del robot en la version 1, es decir lo que deberia hacer en esta version y lo que hace)
 (Insertar video de funcionamiento al final)
   ### [Video del funcionamiento de la version 1]()
