@@ -29,8 +29,7 @@ Para la práctica hemos implementado la herencia y creado este primer programa c
   ### [Video del funcionamiento de la version 0](https://urjc-my.sharepoint.com/:v:/g/personal/da_quinga_2020_alumnos_urjc_es/ERZZHS94AaRIvg1dBxt_WscB_xtm80WHpZEaWqBEXvW4LQ?e=JcuD3L)
   
 ## 2. Version 1
-(Explicacion del funcionamiento del robot en la version 1, es decir lo que deberia hacer en esta version y lo que hace)
-(Insertar video de funcionamiento al final)
+En esta versión, implementamos una nueva clase virtual, BaseDetected, de la que hereda la clase BumpGOEficiente. Esta clase mejora el BumpGo de la versión anterior añadiendo un cuarto estado, girar a la derecha. Ahora cuando el bumper detecta pressión, es decir choca con un objeto, gira en direccion contraria para evitarlo. Si choca en el centro, va a la izquierda. Además, hemos implementado un launcher para lanzar el nodo con parámetros de velocidad, tiempo de giro, etc.
   ### [Video del funcionamiento de la version 1]()
 
 ## Version 2
