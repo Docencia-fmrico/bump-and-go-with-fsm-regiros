@@ -36,7 +36,7 @@ En esta versión, implementamos una nueva clase virtual, BaseDetected, de la que
 
 ### 2.0. Introducción
 
-
+Para la versión final implementaremos el uso del láser, un sensor que toma mediciones en un rango angular de 0º-360º y en un rango de distancias de 0,03m-20m. La complejidad de esta práctica radica en la toma de medidas, ya que cualquier medida fuera del rango de distancias puede ser tomada como null o infinito, además, hay que saber en que lado del kobuki está el obstaculo a esquivar. 
 
 ### 2.1. Objetivo
 
