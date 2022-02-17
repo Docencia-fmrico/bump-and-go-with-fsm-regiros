@@ -4,8 +4,9 @@
 ## 0. Introducción
 En esta práctica utilizaremos un robot y 2 de sus sensores (láser y bumper). Se implementarán 3 versiones para el desplazamiento del robot.
 
-Nombre del robot -> *Kobuki*
-Nombre del láser -> *Rplidar*
+Nombre del robot --> *Kobuki*
+
+Nombre del láser -->*Rplidar*
 
 En primer lugar, la versión 0, solo utiliza el bumper del kobuki, de forma que cuando note un obstáculo pueda esquivarlo.
 Por otro lado, la versión 1, es una modificación de la versión 0 en la que se intenta esquivar obstáculos de manera inteligente.
