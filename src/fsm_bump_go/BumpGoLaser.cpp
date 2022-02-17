@@ -27,13 +27,6 @@ namespace fsm_bump_go
   
   void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    //int start_detection = 0;
-
-    //int min_pos = 45*cte;
-    //int max_pos = 315*cte;
-    //int min_pos = 45*(msg->ranges.size()/vuelta);
-    //int max_pos = 315*(msg->ranges.size()/vuelta);
-    //int i = start_detection;
     detected_=false;
 
     for(int j = 0; j < min_pos; j++){
