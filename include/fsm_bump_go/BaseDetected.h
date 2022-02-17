@@ -31,8 +31,6 @@ public:
    {
         pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
    }
-
-  //virtual void detectedCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)=0;
   virtual void step()=0;
 
 protected:
