@@ -2,7 +2,12 @@
 # fsm_bump_go
 
 ## Introducción
-(Explicar lo que tenemos que hacer en esta práctica brevemente acerca de las tres versiones)
+En esta práctica utilizaremos un robot y 2 de sus sensores (láser y bumper). Se implementarán 3 versiones para el desplazamiento del robot.
+Nombre del robot -> Kobuki
+Nombre del láser -> Rplidar
+En primer lugar, la versión 0, solo utiliza el bumper del kobuki, de forma que cuando note un obstáculo pueda esquivarlo.
+Por otro lado, la versión 1, es una modificación de la versión 0 en la que se intenta esquivar obstáculos de manera inteligente.
+Por último, la versión 2, implementa la utilización del láser, con ello podemos esquivar objetos antes de detectarlos con el bumper.
 Nombre del robot -> Kobuki
 Nombre del laser -> Rplidar
 (Dejo los nombres de los componentes utilizados para que los definas como tal)
