@@ -30,7 +30,8 @@ namespace fsm_bump_go
     
     private:
 
-      bool detected_;
+      bool detected_l_;
+      bool detected_r_;
       float DISTANCE_DETECT = 0.5;
       int LONG_MED = 760; // Longitud del array de medidas del laser
 
@@ -39,7 +40,11 @@ namespace fsm_bump_go
       int min_pos = 45*(LONG_MED/vuelta);
       int max_pos = 315*(LONG_MED/vuelta);
 
-      int object_position_;
+      int object_position_l_;
+      int object_position_r_;
+
+      float distance_l_;
+      float distance_r_;
 
       ros::Time laserdetect_ts_;
       ros::Subscriber sub_laser_;

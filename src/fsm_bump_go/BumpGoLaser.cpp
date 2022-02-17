@@ -19,31 +19,31 @@ namespace fsm_bump_go
 {
 
   BumpGoLaser::BumpGoLaser()
-  : BaseDetected(),
-  detected_(false)
+  : BaseDetected()
   {
       sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::BumpGoLaser::laserCallback, this);
   }
   
   void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    detected_=false;
+    detected_l_=false;
+    detected_r_=false;
 
     for(int j = 0; j < min_pos; j++){
       if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
-        detected_ = true;
-        object_position_ = j;
+        detected_l_ = true;
+        object_position_l_ = j;
+        distance_l_ = msg->ranges[j];
         break;
       }
     }
 
-    if(!detected_){
-      for(int j = max_pos; j < msg->ranges.size(); j++){
-        if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
-          detected_ = true;
-          object_position_ = j;
-          break;
-        }
+    for(int j = max_pos; j < msg->ranges.size(); j++){
+      if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+        detected_r_ = true;
+        object_position_r_ = j;
+        distance_r_ = msg->ranges[j];
+        break;
       }
     }
   }
@@ -58,7 +58,7 @@ namespace fsm_bump_go
       cmd.linear.x = 0.1;
       cmd.angular.z = 0;
 
-      if (detected_)
+      if (detected_r_ || detected_l_)
       {
         laserdetect_ts_ = ros::Time::now();
         state_ = GOING_BACK;
@@ -73,8 +73,18 @@ namespace fsm_bump_go
       if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
-        if( max_pos < object_position_ && object_position_ < LONG_MED)
-        {
+        if(detected_l_ && detected_r_){
+          
+          if (distance_l_<=distance_r_){
+            state_ = TURNING_RIGHT;
+            ROS_INFO("GOING_BACK -> TURNING_RIGHT");
+            }
+          else{
+            state_ = TURNING_LEFT;
+            ROS_INFO("GOING_BACK -> TURNING_LEFT");
+          }
+        }
+        else if(detected_l_){
           state_ = TURNING_RIGHT;
           ROS_INFO("GOING_BACK -> TURNING_RIGHT");
         }
@@ -84,7 +94,6 @@ namespace fsm_bump_go
           ROS_INFO("GOING_BACK -> TURNING_LEFT");
         }
       }
-
       break;
     case TURNING_RIGHT:
 
