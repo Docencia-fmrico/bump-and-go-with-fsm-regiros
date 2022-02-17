@@ -12,9 +12,9 @@ En primer lugar, la versión 0, solo utiliza el bumper del kobuki, de forma que 
 Por otro lado, la versión 1, es una modificación de la versión 0 en la que se intenta esquivar obstáculos de manera inteligente.
 Por último, la versión 2, implementa la utilización del láser, con ello podemos esquivar objetos antes de detectarlos con el bumper.
 
-[!alt_text](https://user-images.githubusercontent.com/90764701/154569800-4721feeb-aa69-4090-bc2b-75607d43e8b5.jpg)
+![kobuki](https://user-images.githubusercontent.com/90764701/154569800-4721feeb-aa69-4090-bc2b-75607d43e8b5.jpg)
 
-[!alt_text](https://user-images.githubusercontent.com/90764701/154569890-bc1347c2-e37a-4359-8829-c3bf567bdc93.jpg)
+![kobuki con ordenador](https://user-images.githubusercontent.com/90764701/154569890-bc1347c2-e37a-4359-8829-c3bf567bdc93.jpg)
 
 
 ## 1. Version 0
@@ -69,7 +69,7 @@ Para sacar el segundo abanico sería: 315º-360º
 
 De esta forma solo nos fijamos en la parte de delante y de los lados.
 
-Para pasarlo a posiciiones de array:
+Para pasarlo a posiciones de array:
 El primer trozo sería desde 0 hasta 45 * cte.
 El segundo trozo sería desde 315 * cte hasta 360 * cte.
 
