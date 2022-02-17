@@ -30,42 +30,16 @@ namespace fsm_bump_go
     int start_detection = 0;
 
     int min_pos = 45*cte;
-    int max_pos = 135*cte;
+    int max_pos = 315*cte;
 
     //int end_detection = msg->ranges.size();
 
     int middle_position_ = 90*cte;
     int i = start_detection;
     detected_=false;
-    //std::cout << "tamaño: " << msg->ranges.size() << std::endl;
+    
+    
 
-    for(int j = min_pos; j < max_pos; j++){
-      if(msg->ranges[j] < DISTANCE_DETECT){
-        detected_ = true;
-        object_position_ = j;
-        std::cout << "medida: " << j << " Distance: " << msg->ranges[j]<< std::endl;
-        break;
-      }
-    }
-    //float dist_scan = msg->range_max;
-    //detected_ = false;
-    /*for(int i = 0; i < msg->ranges.size();i++)
-    {
-      if(msg->ranges[i] < dist_scan)
-      {
-        dist_scan = msg->ranges[i];
-        detected_ = true;
-        std::cout << "medida: " << msg->ranges[i] << std::endl;
-      }
-    }
-    for(int i = 0; i < 11;i++)
-    {
-      if(msg->ranges[i] < dist_scan)
-      {
-        dist_scan = msg->ranges[i];
-        detected_ = true;
-      }
-    }*/
     //int ind = msg->ranges.size()/4;//lado derecho superior y en la posicion cero es en medio
     //int ind = msg->ranges.size() - msg->ranges.size()/4;
     //std::cout << "medida: " << msg->ranges[ind] << std::endl;
@@ -79,7 +53,7 @@ namespace fsm_bump_go
     switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.1*0;
+      cmd.linear.x = 0.1;
       cmd.angular.z = 0;
 
       if (detected_)
@@ -91,7 +65,7 @@ namespace fsm_bump_go
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1*0;
+      cmd.linear.x = -0.1;
       cmd.angular.z = 0;
 
       if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
@@ -114,7 +88,7 @@ namespace fsm_bump_go
     case TURNING_RIGHT:
 
       cmd.linear.x = 0;
-      cmd.angular.z = -0.66*0;
+      cmd.angular.z = -0.66;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -124,7 +98,7 @@ namespace fsm_bump_go
       break;
     case TURNING_LEFT:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.66*0;
+      cmd.angular.z = 0.66;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {

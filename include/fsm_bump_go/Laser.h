@@ -31,7 +31,7 @@ namespace fsm_bump_go
     private:
 
       bool detected_;
-      float DISTANCE_DETECT = 0.6;
+      float DISTANCE_DETECT = 0.5;
 
       float cte = 760 / 360;
       //float angle_min = 3.14/4
