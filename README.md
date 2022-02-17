@@ -40,6 +40,7 @@ Para la versión final implementaremos el uso del láser, un sensor que toma med
 
 ### 2.1. Objetivo
 
+El objetivo final es conseguir una navegación autónoma del kobuki, siendo éste capaz de esquivar cualquier objeto sin llegar a chocarse (como en las versiones anteriores) y de forma eficiente, es decir, girar al lado contrario del obstáculo para no derivar en una navegación circular.
 
 
 ### 2.2. ¿Qué hemos hecho?
