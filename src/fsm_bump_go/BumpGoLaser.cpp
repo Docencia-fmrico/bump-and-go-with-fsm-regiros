@@ -30,7 +30,7 @@ namespace fsm_bump_go
     int start_detection = 0;
 
     int min_pos = 45*cte;
-    int max_pos = 135*cte;
+    int max_pos = 315*cte;
 
     //int end_detection = msg->ranges.size();
 
@@ -41,9 +41,9 @@ namespace fsm_bump_go
 
     std::cout << "tamaño: " << msg->ranges.size() << std::endl;
 
-    for(int j = min_pos; j < max_pos; j++){
-      if(msg->ranges[i] < DISTANCE_DETECT){
-        detected_ = msg->ranges[i];
+    for(int j = 0; j < msg->ranges.size(); j++){
+      if(msg->ranges[j] < DISTANCE_DETECT && ( (0 < j < min_pos) || (max_pos < j < msg->ranges.size() ) ) ){
+        detected_ = true;
         object_position_ = j;
         break;
       }
