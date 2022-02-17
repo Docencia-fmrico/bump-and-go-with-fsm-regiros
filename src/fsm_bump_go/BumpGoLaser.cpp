@@ -27,7 +27,7 @@ namespace fsm_bump_go
   
   void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    /*int start_detection = 0;
+    int start_detection = 0;
 
     int min_pos = 45*cte;
     int max_pos = 135*cte;
@@ -37,14 +37,17 @@ namespace fsm_bump_go
     int middle_position_ = 90*cte;
     int i = start_detection;
     detected_=false;
-    while ((!detected_) && (min_pos < i < max_pos) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
-    {
-      detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
-      object_position_ = i;
-      i++;
-    } */
-    float dist_scan = msg->range_max;
-    detected_ = false;
+    //std::cout << "tamaño: " << msg->ranges.size() << std::endl;
+
+    for(int j = min_pos; j < max_pos; j++){
+      if(msg->ranges[i] < DISTANCE_DETECT){
+        detected_ = msg->ranges[i];
+        object_position_ = j;
+        break;
+      }
+    }
+    //float dist_scan = msg->range_max;
+    //detected_ = false;
     /*for(int i = 0; i < msg->ranges.size();i++)
     {
       if(msg->ranges[i] < dist_scan)
@@ -62,8 +65,8 @@ namespace fsm_bump_go
         detected_ = true;
       }
     }*/
-    int ind = msg->ranges.size()/4;//lado derecho superior
-    std::cout << "medida: " << msg->ranges[ind] << std::endl;
+    //int ind = msg->ranges.size()/4;//lado derecho superior
+    //std::cout << "medida: " << msg->ranges[ind] << std::endl;
 
   }
 
