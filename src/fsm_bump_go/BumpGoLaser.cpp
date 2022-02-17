@@ -40,9 +40,10 @@ namespace fsm_bump_go
     //std::cout << "tamaño: " << msg->ranges.size() << std::endl;
 
     for(int j = min_pos; j < max_pos; j++){
-      if(msg->ranges[i] < DISTANCE_DETECT){
-        detected_ = msg->ranges[i];
+      if(msg->ranges[j] < DISTANCE_DETECT){
+        detected_ = true;
         object_position_ = j;
+        std::cout << "medida: " << j << " Distance: " << msg->ranges[j]<< std::endl;
         break;
       }
     }
@@ -65,7 +66,8 @@ namespace fsm_bump_go
         detected_ = true;
       }
     }*/
-    //int ind = msg->ranges.size()/4;//lado derecho superior
+    //int ind = msg->ranges.size()/4;//lado derecho superior y en la posicion cero es en medio
+    //int ind = msg->ranges.size() - msg->ranges.size()/4;
     //std::cout << "medida: " << msg->ranges[ind] << std::endl;
 
   }
