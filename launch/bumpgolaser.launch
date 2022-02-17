@@ -1,5 +1,5 @@
 <launch>
-	<node pkg="fsm_bump_go" type="bumpgoeficiente_node" name="BumpGoEficiente_Node" output="screen">
+	<node pkg="fsm_bump_go" type="bumpgolaser_node" name="BumpGoLaser_Node" output="screen">
 		<rosparam command="load" file="$(find fsm_bump_go)/config/BumpGoConfig.yaml"/>
 	</node>
 </launch>
