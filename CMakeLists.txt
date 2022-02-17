@@ -45,7 +45,7 @@ roslint_cpp(
  include/fsm_bump_go/BumpGo.h
  include/fsm_bump_go/BaseDetected.h
  include/fsm_bump_go/BumpGoEficiente.h
- include/fsm_bump_go/Laser.h
+ include/fsm_bump_go/BumpGoLaser.h
 )
 
 catkin_add_gtest(BumpGoEficiente_Test tests/BumpGoEficiente_Test.cpp)
