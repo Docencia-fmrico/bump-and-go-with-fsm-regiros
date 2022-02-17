@@ -12,42 +12,55 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "fsm_bump_go/BumpGoLaser.h"
 #include "ros/ros.h"
-
-#include "fsm_bump_go/BumpGoEficiente.h"
 
 namespace fsm_bump_go
 {
 
-BumpGoEficiente::BumpGoEficiente()
-: BaseDetected(),
-  pressed_(false),
-  side_(0)
-{
-  sub_bumber_ = n_.subscribe("mobile_base/events/bumper", 1, &fsm_bump_go::BumpGoEficiente::bumperCallback, this);
-}
+  BumpGoLaser::BumpGoLaser()
+  : BaseDetected(),
+  detected_(false)
+  {
+      sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::BumpGoLaser::laserCallback, this);
+  }
+  
+  void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
+  {
+    detected_=false;
 
-void
-BumpGoEficiente::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
-{
-  pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
-  side_ = msg->bumper == kobuki_msgs::BumperEvent::LEFT;
-}
+    for(int j = 0; j < min_pos; j++){
+      if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+        detected_ = true;
+        object_position_ = j;
+        break;
+      }
+    }
 
-void
-BumpGoEficiente::step()
-{
-  geometry_msgs::Twist cmd;
+    if(!detected_){
+      for(int j = max_pos; j < msg->ranges.size(); j++){
+        if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+          detected_ = true;
+          object_position_ = j;
+          break;
+        }
+      }
+    }
+  }
 
-  switch (state_)
+  void BumpGoLaser::step()
+  {
+    geometry_msgs::Twist cmd;
+
+    switch (state_)
   {
     case GOING_FORWARD:
       cmd.linear.x = 0.1;
       cmd.angular.z = 0;
 
-      if (pressed_)
+      if (detected_)
       {
-        press_ts_ = ros::Time::now();
+        laserdetect_ts_ = ros::Time::now();
         state_ = GOING_BACK;
         ROS_INFO("GOING_FORWARD -> GOING_BACK");
       }
@@ -57,10 +70,10 @@ BumpGoEficiente::step()
       cmd.linear.x = -0.1;
       cmd.angular.z = 0;
 
-      if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+      if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
-        if(side_ == 1)
+        if( max_pos < object_position_ && object_position_ < LONG_MED)
         {
           state_ = TURNING_RIGHT;
           ROS_INFO("GOING_BACK -> TURNING_RIGHT");
@@ -97,6 +110,7 @@ BumpGoEficiente::step()
     }
 
     pub_vel_.publish(cmd);
-}
 
-}  // namespace fsm_bump_go
+  }
+
+} // namespace fsm_bump_go

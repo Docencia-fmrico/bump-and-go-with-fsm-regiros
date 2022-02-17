@@ -12,34 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_BUMPGOEFICIENTE_H
-#define FSM_BUMP_GO_BUMPGOEFICIENTE_H
+#include "fsm_bump_go/BumpGoLaser.h"
+#include "ros/ros.h"
 
-#include "BaseDetected.h"
-#include "kobuki_msgs/BumperEvent.h"
- 
-namespace fsm_bump_go
+int main(int argc, char **argv)
 {
+  ros::init(argc, argv, "fsm_bump_go");
 
-class BumpGoEficiente : public BaseDetected
-{
-public:
-  BumpGoEficiente();
+  fsm_bump_go::BumpGoLaser fsm_bump_go;
 
-  void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
+  ros::Rate loop_rate(20);
+  while (ros::ok())
+  {
+    fsm_bump_go.step();
 
-protected:
+    ros::spinOnce();
+    loop_rate.sleep();
+  }
 
-  int side_;
-
-  bool pressed_;
-
-  ros::Time press_ts_;
-
-  ros::Subscriber sub_bumber_;
-
-};  
-}// namespace fsm_bump_go
-
-#endif  // FSM_BUMP_GO_BUMPGOEFICIENTE_H
+  return 0;
+}
