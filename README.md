@@ -34,7 +34,28 @@ Para la práctica hemos implementado la herencia y creado este primer programa c
   ### [Video del funcionamiento de la version 0](https://urjc-my.sharepoint.com/:v:/g/personal/da_quinga_2020_alumnos_urjc_es/ERZZHS94AaRIvg1dBxt_WscB_xtm80WHpZEaWqBEXvW4LQ?e=JcuD3L)
   
 ## 2. Version 1
-En esta versión, implementamos una nueva clase virtual, BaseDetected, de la que hereda la clase BumpGOEficiente. Esta clase mejora el BumpGo de la versión anterior añadiendo un cuarto estado, girar a la derecha. Ahora cuando el bumper detecta pressión, es decir choca con un objeto, gira en direccion contraria para evitarlo. Si choca en el centro, va a la izquierda. Además, hemos implementado un launcher para lanzar el nodo con parámetros de velocidad, tiempo de giro, etc.
+
+### 2.0. Introducción
+
+Esta versión es una ampliación de la primera. Utilizaremos un nuevo dato del bumper llamado state que devuelve 0 cuando es presionado por la izquierda, 1 centro y 2 derecha. este nuevo dato nos ayudará a saber en que lado se ha detectado el objeto.
+
+### 2.1. Objetivo
+
+El objetivo es mejorar el anterior programa de modo que ahora esquive al objeto detectado de forma eficiente. Por ejemplo, si el objeto se encuentra a la izquierda del robot que este gire a la derecha. 
+
+### 2.2. ¿Qué hemos hecho?
+
+#### 2.2.0 Clase BaseDetected
+
+Implementamos una nueva clase abstracta, BaseDetected. Esta clase es de la que heredarán las proximas clases. Incluye las variables y programas básicos que deben implementar todas las clases orientadas a moverse en base a las lecturas de un sensor. Creamos una clase *BumpGoEficiente* que heredará de esta (como también hará más tarde *BumpGoLaser*).
+
+#### 2.2.1 Ampliación de BumpGo
+
+Esta clase mejora el BumpGo de la versión anterior añadiendo un cuarto estado, girar a la derecha. Ahora cuando el bumper detecta pressión, es decir choca con un objeto, gira en direccion contraria para evitarlo. Si choca en el centro, va a la izquierda. 
+
+#### 2.2.2 Launcher
+
+Hemos implementado un launcher para lanzar el nodo con parámetros de velocidad, tiempo de giro, etc. Estos parámetro se encuentran en un fichero *.yaml* , al editarlos no será necesario compilar para que cambien los valores en el programa por lo que tiene una gran ventaja. 
   ### [Video del funcionamiento de la version 1]()
 
 ## Version 2
