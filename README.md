@@ -46,6 +46,43 @@ El objetivo final es conseguir una navegación autónoma del kobuki, siendo ést
 ### 2.2. ¿Qué hemos hecho?
 
 
+#### 2.2.1 Uso de números mágicos:
+
+Hemos usado una regla sencilla, el array tenía msg->range.size() posiciones (760), por lo que hicimos una regla de tres para compararlo con los ángulos.
+
+La siguiente:
+cte = 760/360
+
+De esta forma sacamos una relacion entre angulos y posiciones.
+
+Nuestro kobuki tiene la posicion 0 justo en frente, por lo que complica recoger este abanico de posiciones.
+Usando dos fors hemos conseguido recorrer ambos abanicos.
+
+#### 2.2.2 ¿Cómo los hemos dividido?
+
+Para sacar el primer abanico en grados sería algo así : 0º-45º
+Para sacar el segundo abanico sería: 315º-360º
+
+De esta forma solo nos fijamos en la parte de delante y de los lados.
+
+Para pasarlo a posiciiones de array:
+El primer trozo sería desde 0 hasta 45 * cte.
+El segundo trozo sería desde 315 * cte hasta 360 * cte.
+
+#### 2.2.3 ¿Cómo diferenciamos qué lado detecta?
+
+Cuando el láser detecta un objeto a menos de 0.6m se rompe el bucle y guardamos esa posición del array en pos_objeto_
+
+Más tarde para girar hacemos una comparaión:
+Si (315 * cte < pos_objeto_ < 360 * cte):
+Esto sería que hemos detectado algo por la parte izquierda del kobuki, por lo que giramos a la izq.
+
+Sino fuese así, giramos a la derecha.
+
+#### 2.2.4 Implementación de parámetros
+
+Por último hemos creado
+
   ### [Video del funcionamiento de la version 2](https://urjc-my.sharepoint.com/:v:/g/personal/da_quinga_2020_alumnos_urjc_es/ETAaWriBvK5HuAAXQX6tWpQBq08uD1GSxMVqdE8Hc-Z_mQ?e=NgtHHE)
   
 ## Observaciones
