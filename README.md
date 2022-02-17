@@ -56,22 +56,22 @@ Esta clase mejora el BumpGo de la versión anterior añadiendo un cuarto estado,
 #### 2.2.2 Launcher
 
 Hemos implementado un launcher para lanzar el nodo con parámetros de velocidad, tiempo de giro, etc. Estos parámetro se encuentran en un fichero *.yaml* , al editarlos no será necesario compilar para que cambien los valores en el programa por lo que tiene una gran ventaja. 
-  ### [Video del funcionamiento de la version 1]()
+  ### [Video del funcionamiento de la version 1](https://drive.google.com/file/d/13FJBwNCYC927cHRqDCM2qJm89MI393FA/view?usp=sharing)
 
 ## Version 2
 
-### 2.0. Introducción
+### 3.0. Introducción
 
 Para la versión final implementaremos el uso del láser, un sensor que toma mediciones en un rango angular de 0º-360º y en un rango de distancias de 0,03m-20m. La complejidad de esta práctica radica en la toma de medidas, ya que cualquier medida fuera del rango de distancias puede ser tomada como null o infinito, además, hay que saber en que lado del kobuki está el obstaculo a esquivar. 
 
-### 2.1. Objetivo
+### 3.1. Objetivo
 
 El objetivo final es conseguir una navegación autónoma del kobuki, siendo éste capaz de esquivar cualquier objeto sin llegar a chocarse (como en las versiones anteriores) y de forma eficiente, es decir, girar al lado contrario del obstáculo para no derivar en una navegación circular.
 
 
-### 2.2. ¿Qué hemos hecho?
+### 3.2. ¿Qué hemos hecho?
 
-#### 2.2.1. Uso de números mágicos:
+#### 3.2.1. Uso de números mágicos:
 
 Hemos usado una regla sencilla, el array tenía *msg->range.size()* posiciones (760), por lo que hicimos una regla de tres para compararlo con los ángulos.
 
@@ -83,7 +83,7 @@ De esta forma sacamos una relacion entre angulos y posiciones.
 Nuestro kobuki tiene la posicion 0 justo en frente, por lo que complica recoger este abanico de posiciones.
 Usando dos fors hemos conseguido recorrer ambos abanicos.
 
-#### 2.2.2. ¿Cómo los hemos dividido?
+#### 3.2.2. ¿Cómo los hemos dividido?
 
 Para sacar el primer abanico en grados sería algo así : 0º-45º
 Para sacar el segundo abanico sería: 315º-360º
@@ -94,7 +94,7 @@ Para pasarlo a posiciones de array:
 El primer trozo sería desde 0 hasta 45 * cte.
 El segundo trozo sería desde 315 * cte hasta 360 * cte.
 
-#### 2.2.3. ¿Cómo diferenciamos qué lado detecta?
+#### 3.2.3. ¿Cómo diferenciamos qué lado detecta?
 
 Cuando el láser detecta un objeto a menos de 0.6m se rompe el bucle y guardamos esa posición del array en pos_objeto_
 
@@ -104,11 +104,9 @@ Esto sería que hemos detectado algo por la parte izquierda del kobuki, por lo q
 
 Sino fuese así, giramos a la derecha.
 
-#### 2.2.4. Implementación de parámetros
+#### 3.2.4. Implementación de parámetros
 
 Por último hemos creado un archivo de configuración *BumpGoConfig.yaml*, para poder cambiar parámetros básicos como velocidad del kobuki, distancia de giro, etc.
 
   #### [Video del funcionamiento de la version 2](https://urjc-my.sharepoint.com/:v:/g/personal/da_quinga_2020_alumnos_urjc_es/ETAaWriBvK5HuAAXQX6tWpQBq08uD1GSxMVqdE8Hc-Z_mQ?e=NgtHHE)
   
-## Observaciones
-(Problemas que hemos tenido o alguna observacion a destacar)
