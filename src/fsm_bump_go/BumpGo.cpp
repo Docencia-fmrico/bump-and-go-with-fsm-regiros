@@ -37,6 +37,14 @@ void
 BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
   pressed_ = msg->state == kobuki_msgs::BumperEvent::PRESSED;
+<<<<<<< HEAD
+  //izquierda = 0
+  //centro = 1
+  //derecha = 2
+
+  //
+=======
+>>>>>>> 91a33c14ace0ba66fa42eea2f3cf21f144d92e1d
 }
 
 void

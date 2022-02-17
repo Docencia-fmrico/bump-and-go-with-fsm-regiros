@@ -27,18 +27,25 @@ namespace fsm_bump_go
   
   void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    /*int start_detection = 0;
-    int end_detection = msg->ranges.size();
-    middle_position_ = msg->ranges.size() / 2;
+    int start_detection = 0;
+
+    int min_pos = 45*cte;
+    int max_pos = 135*cte;
+
+    //int end_detection = msg->ranges.size();
+
+    int middle_position_ = 90*cte;
     int i = start_detection;
     detected_=false;
+
     std::cout << "tamaño: " << msg->ranges.size() << std::endl;
-    while ((!detected_) && (i < end_detection) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
+
+    while ((!detected_) && (min_pos < i < max_pos) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
     {
       detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
       object_position_ = i;
       i++;
-    } */
+    } 
     /*float dist_scan = msg->range_max;
     detected_ = false;
     for(int i = 10; i < msg->ranges.size();i++)
