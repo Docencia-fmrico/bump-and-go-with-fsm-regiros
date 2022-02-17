@@ -34,7 +34,7 @@ namespace fsm_bump_go
 
     //int end_detection = msg->ranges.size();
 
-    int middle_position_ = 90*cte;
+    //int middle_position_ = 90*cte;
 
     int i = start_detection;
     detected_=false;
@@ -57,7 +57,7 @@ namespace fsm_bump_go
       }
     }
 
-    if(detected!){
+    if(!detected_){
       for(int j = max_pos; j < msg->ranges.size(); j++){
         if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
           detected_ = true;
@@ -101,7 +101,7 @@ namespace fsm_bump_go
       {
         turn_ts_ = ros::Time::now();
         std::cout << object_position_<<std::endl;
-        if( object_position_ > middle_position_)
+        if( 315*cte < object_position_ &&  object_position_ < 360*cte )
         {
           state_ = TURNING_RIGHT;
           ROS_INFO("GOING_BACK -> TURNING_RIGHT");
