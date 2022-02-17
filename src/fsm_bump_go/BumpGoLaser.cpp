@@ -41,13 +41,32 @@ namespace fsm_bump_go
 
     std::cout << "tamaño: " << msg->ranges.size() << std::endl;
 
-    for(int j = 0; j < msg->ranges.size(); j++){
-      if(msg->ranges[j] < DISTANCE_DETECT && ( (0 < j < min_pos) || (max_pos < j < msg->ranges.size() ) ) ){
+    /*for(int j = 0; j < msg->ranges.size(); j++){
+      if(msg->ranges[j] < DISTANCE_DETECT && ( (0 < j < min_pos) || (max_pos < j < msg->ranges.size()) ) && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+        detected_ = true;
+        object_position_ = j;
+        break;
+      }
+    }*/
+
+    for(int j = 0; j < min_pos; j++){
+      if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
         detected_ = true;
         object_position_ = j;
         break;
       }
     }
+
+    if(detected!){
+      for(int j = max_pos; j < msg->ranges.size(); j++){
+        if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
+          detected_ = true;
+          object_position_ = j;
+          break;
+        }
+      }
+    }
+
     /*while ((!detected_) && (min_pos < i < max_pos) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
     {
       detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
