@@ -18,14 +18,14 @@
 namespace fsm_bump_go
 {
 
-  Laser::Laser()
+  BumpGoLaser::BumpGoLaser()
   : BaseDetected(),
   detected_(false)
   {
-      sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::Laser::laserCallback, this);
+      sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::BumpGoLaser::laserCallback, this);
   }
   
-  void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
+  void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
     detected_=false;
 
@@ -48,7 +48,7 @@ namespace fsm_bump_go
     }
   }
 
-  void Laser::step()
+  void BumpGoLaser::step()
   {
     geometry_msgs::Twist cmd;
 

@@ -20,10 +20,10 @@
 
 namespace fsm_bump_go
 {
-  class Laser : public BaseDetected
+  class BumpGoLaser : public BaseDetected
   {
     public:
-      Laser();
+      BumpGoLaser();
 
       void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
       void step();
