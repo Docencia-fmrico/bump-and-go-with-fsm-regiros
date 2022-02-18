@@ -22,7 +22,7 @@ namespace fsm_bump_go
   : BaseDetected(),
   detected_(false)
   {
-      sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::BumpGoLaser::laserCallback, this);
+    sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::Laser::laserCallback, this);
   }
   
   void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
@@ -55,7 +55,7 @@ namespace fsm_bump_go
     switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.1;
+      cmd.linear.x = fordward_vel;
       cmd.angular.z = 0;
 
       if (detected_)
@@ -67,10 +67,10 @@ namespace fsm_bump_go
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1;
+      cmd.linear.x = back_vel;
       cmd.angular.z = 0;
 
-      if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
+      if ((ros::Time::now() - laserdetect_ts_).toSec() > backing_time )
       {
         turn_ts_ = ros::Time::now();
         if( max_pos < object_position_ && object_position_ < LONG_MED)
@@ -89,9 +89,9 @@ namespace fsm_bump_go
     case TURNING_RIGHT:
 
       cmd.linear.x = 0;
-      cmd.angular.z = -0.66;
+      cmd.angular.z = turning_right_vel;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now()-turn_ts_).toSec() > turning_time )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING_RIGHT -> GOING_FORWARD");
@@ -99,9 +99,9 @@ namespace fsm_bump_go
       break;
     case TURNING_LEFT:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.66;
+      cmd.angular.z = turning_left_vel;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now()-turn_ts_).toSec() > turning_time )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING_LEFT -> GOING_FORWARD");

@@ -25,10 +25,19 @@ class BaseDetected
 {
 public:
   BaseDetected()
-  :state_(GOING_FORWARD)
-   {
-        pub_vel_ = n_.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity", 1);
-   }
+  :n_("~"),
+  state_(GOING_FORWARD)
+  {
+    n_.getParam("turning_time", turning_time);
+    n_.getParam("backing_time", backing_time);
+
+    n_.getParam("fordward_vel", fordward_vel);
+    n_.getParam("back_vel", back_vel);
+    n_.getParam("turning_right_vel", turning_right_vel);
+    n_.getParam("turning_left_vel", turning_left_vel);
+
+    pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
+  }
    
   virtual void step()=0;
 
@@ -40,8 +49,13 @@ protected:
   static const int TURNING_RIGHT = 2;
   static const int TURNING_LEFT = 3;
 
-  static constexpr double TURNING_TIME = 3.0;
-  static constexpr double BACKING_TIME = 3.0;
+  double turning_time;
+  double backing_time;
+
+  double fordward_vel;
+  double back_vel;
+  double turning_right_vel;
+  double turning_left_vel;
 
   int state_;
 
