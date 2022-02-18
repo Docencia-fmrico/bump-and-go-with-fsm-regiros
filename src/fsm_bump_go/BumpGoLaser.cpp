@@ -28,15 +28,15 @@ namespace fsm_bump_go
   
   void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    detected_i=false;
-    detected_d=false;
+    detected_i = false;
+    detected_d = false;
 
     for(int j = 0; j < min_pos; j++){
       if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
         detected_d = true;
         object_position_ = j;
         break;
-      } else if(msg->ranges[LONG_MED-j] < DISTANCE_DETECT && (msg->ranges[LONG_MED-j] < msg->range_max) && (msg->ranges[LONG_MED-j] > msg->range_min){
+      } else if(msg->ranges[LONG_MED-j] < DISTANCE_DETECT && (msg->ranges[LONG_MED-j] < msg->range_max) && (msg->ranges[LONG_MED-j] > msg->range_min)){
           detected_i = true;
           object_position_ = j;
           break;
