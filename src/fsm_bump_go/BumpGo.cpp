@@ -19,9 +19,6 @@
 
 #include "ros/ros.h"
 
-#include "fsm_bump_go/BumpGo.h"
-
-
 namespace fsm_bump_go
 {
 
