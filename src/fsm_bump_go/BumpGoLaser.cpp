@@ -22,7 +22,7 @@ namespace fsm_bump_go
   : BaseDetected(),
   detected_(false)
   {
-    sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::Laser::laserCallback, this);
+    sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::BumpGoLaser::laserCallback, this);
   }
   
   void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
