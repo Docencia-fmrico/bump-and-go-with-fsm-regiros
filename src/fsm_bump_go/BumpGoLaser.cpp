@@ -12,36 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/Laser.h"
+#include "fsm_bump_go/BumpGoLaser.h"
 #include "ros/ros.h"
 
 namespace fsm_bump_go
 {
 
-  Laser::Laser()
+  BumpGoLaser::BumpGoLaser()
   : BaseDetected(),
-  detected_(false)
+  detected_i(false),
+  detected_d(false)
   {
-      sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::Laser::laserCallback, this);
+    sub_laser_ = n_.subscribe("/scan_filtered", 1, &fsm_bump_go::BumpGoLaser::laserCallback, this);
   }
   
-  void Laser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
+  void BumpGoLaser::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   {
-    int start_detection = 0;
-
-    int min_pos = 45*cte;
-    int max_pos = 315*cte;
-
-    //int end_detection = msg->ranges.size();
-
-    //int middle_position_ = 90*cte;
-
-    int i = start_detection;
-    detected_i = false;
-    detected_d = false;
-
-    std::cout << "tamaño: " << msg->ranges.size() << std::endl;
-
+    detected_i=false;
+    detected_d=false;
 
     for(int j = 0; j < min_pos; j++){
       if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
@@ -55,27 +43,16 @@ namespace fsm_bump_go
       }
     }
 
-    /*if(!git
-    detected_){
-      for(int j = max_pos; j < msg->ranges.size(); j++){
-        if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
-          detected_ = true;
-          object_position_ = j;
-          break;
-        }
-      }
-    }*/
-
   }
 
-  void Laser::step()
+  void BumpGoLaser::step()
   {
     geometry_msgs::Twist cmd;
 
     switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.1;
+      cmd.linear.x = fordward_vel;
       cmd.angular.z = 0;
 
       if (detected_d || detected_i)
@@ -87,19 +64,18 @@ namespace fsm_bump_go
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1;
+      cmd.linear.x = back_vel;
       cmd.angular.z = 0;
 
-      if ((ros::Time::now() - laserdetect_ts_).toSec() > BACKING_TIME )
+      if ((ros::Time::now() - laserdetect_ts_).toSec() > backing_time )
       {
         turn_ts_ = ros::Time::now();
-        std::cout << object_position_<<std::endl;
         if(detected_i)
         {
           state_ = TURNING_RIGHT;
           ROS_INFO("GOING_BACK -> TURNING_RIGHT");
         }
-        else
+        else if(detected_d)
         {
           state_ = TURNING_LEFT;
           ROS_INFO("GOING_BACK -> TURNING_LEFT");
@@ -110,9 +86,9 @@ namespace fsm_bump_go
     case TURNING_RIGHT:
 
       cmd.linear.x = 0;
-      cmd.angular.z = -0.66;
+      cmd.angular.z = turning_right_vel;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now()-turn_ts_).toSec() > turning_time )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING_RIGHT -> GOING_FORWARD");
@@ -120,9 +96,9 @@ namespace fsm_bump_go
       break;
     case TURNING_LEFT:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.66;
+      cmd.angular.z = turning_left_vel;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now()-turn_ts_).toSec() > turning_time )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
