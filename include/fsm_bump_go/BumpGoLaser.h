@@ -20,24 +20,26 @@
 
 namespace fsm_bump_go
 {
-  class Laser : public BaseDetected
+  class BumpGoLaser : public BaseDetected
   {
     public:
-      Laser();
+      BumpGoLaser();
 
       void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
       void step();
     
     private:
 
-      bool detected_;
-      float DISTANCE_DETECT = 0.6;
+      bool detected_d;
+      bool detected_i;
+      float DISTANCE_DETECT = 0.5;
+      int LONG_MED = 760; // Longitud del array de medidas del laser
 
-      float cte = msg->range.size() / 360;
-      //float angle_min = 3.14/4
-      //float angle_max = 3.14*3/4
+      float vuelta = 360;
 
-      int middle_position_;
+      int min_pos = 45*(LONG_MED/vuelta);
+      int max_pos = 315*(LONG_MED/vuelta);
+
       int object_position_;
 
       ros::Time laserdetect_ts_;

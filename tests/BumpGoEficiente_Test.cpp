@@ -12,34 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_BUMPGOEFICIENTE_H
-#define FSM_BUMP_GO_BUMPGOEFICIENTE_H
+#include <gtest/gtest.h>
+#include "ros/ros.h"
+#include "fsm_bump_go/BumpGoEficiente.h"
 
-#include "BaseDetected.h"
-#include "kobuki_msgs/BumperEvent.h"
- 
-namespace fsm_bump_go
+class TestBumpGoEficiente: public fsm_bump_go::BumpGoEficiente
 {
+    public:
+        const bool & get_pressed_(){ return pressed_; }
+        const int & get_side_(){ return side_; }
+};
 
-class BumpGoEficiente : public BaseDetected
+TEST(BumpGoEficiente_Test, test_init)
 {
-public:
-  BumpGoEficiente();
+    TestBumpGoEficiente fsm_bump_go;
 
-  void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
+    ASSERT_EQ(fsm_bump_go.get_pressed_(), false);
+    ASSERT_EQ(fsm_bump_go.get_side_(), 0);
+}
 
-protected:
+int main(int argc, char **argv)
+{
+    ros::init(argc,argv,"tests");
 
-  int side_;
-
-  bool pressed_;
-
-  ros::Time press_ts_;
-
-  ros::Subscriber sub_bumber_;
-
-};  
-}// namespace fsm_bump_go
-
-#endif  // FSM_BUMP_GO_BUMPGOEFICIENTE_H
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

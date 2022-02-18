@@ -37,27 +37,26 @@ namespace fsm_bump_go
     //int middle_position_ = 90*cte;
 
     int i = start_detection;
-    detected_=false;
+    detected_i = false;
+    detected_d = false;
 
     std::cout << "tamaño: " << msg->ranges.size() << std::endl;
 
-    /*for(int j = 0; j < msg->ranges.size(); j++){
-      if(msg->ranges[j] < DISTANCE_DETECT && ( (0 < j < min_pos) || (max_pos < j < msg->ranges.size()) ) && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
-        detected_ = true;
-        object_position_ = j;
-        break;
-      }
-    }*/
 
     for(int j = 0; j < min_pos; j++){
       if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
-        detected_ = true;
+        detected_d = true;
         object_position_ = j;
         break;
+      } else if(msg->ranges[LONG_MED-j] < DISTANCE_DETECT && (msg->ranges[LONG_MED-j] < msg->range_max) && (msg->ranges[LONG_MED-j] > msg->range_min){
+          detected_i = true;
+          object_position_ = j;
+          break;
       }
     }
 
-    if(!detected_){
+    /*if(!git
+    detected_){
       for(int j = max_pos; j < msg->ranges.size(); j++){
         if(msg->ranges[j] < DISTANCE_DETECT && (msg->ranges[j] < msg->range_max) && (msg->ranges[j] > msg->range_min)){
           detected_ = true;
@@ -65,14 +64,8 @@ namespace fsm_bump_go
           break;
         }
       }
-    }
+    }*/
 
-    /*while ((!detected_) && (min_pos < i < max_pos) && (msg->ranges[i] < msg->range_max) && (msg->ranges[i] > msg->range_min))
-    {
-      detected_ = msg->ranges[i] < fsm_bump_go::Laser::DISTANCE_DETECT;
-      object_position_ = i;
-      i++;
-    } */
   }
 
   void Laser::step()
@@ -85,7 +78,7 @@ namespace fsm_bump_go
       cmd.linear.x = 0.1;
       cmd.angular.z = 0;
 
-      if (detected_)
+      if (detected_d || detected_i)
       {
         laserdetect_ts_ = ros::Time::now();
         state_ = GOING_BACK;
@@ -101,7 +94,7 @@ namespace fsm_bump_go
       {
         turn_ts_ = ros::Time::now();
         std::cout << object_position_<<std::endl;
-        if( 315*cte < object_position_ &&  object_position_ < 360*cte )
+        if(detected_i)
         {
           state_ = TURNING_RIGHT;
           ROS_INFO("GOING_BACK -> TURNING_RIGHT");

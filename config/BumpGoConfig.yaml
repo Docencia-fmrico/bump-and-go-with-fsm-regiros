@@ -1,0 +1,6 @@
+turning_time: 3.0
+backing_time: 3.0
+fordward_vel: 0.1
+back_vel: -0.1
+turning_right_vel: -0.66
+turning_left_vel: 0.66

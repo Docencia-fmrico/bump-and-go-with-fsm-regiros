@@ -42,7 +42,8 @@ BumpGoEficiente::step()
   switch (state_)
   {
     case GOING_FORWARD:
-      cmd.linear.x = 0.1;
+    
+      cmd.linear.x = fordward_vel;
       cmd.angular.z = 0;
 
       if (pressed_)
@@ -54,30 +55,31 @@ BumpGoEficiente::step()
 
       break;
     case GOING_BACK:
-      cmd.linear.x = -0.1;
+      cmd.linear.x = back_vel;
       cmd.angular.z = 0;
 
-      if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
+      if ((ros::Time::now() - press_ts_).toSec() > backing_time )
       {
         turn_ts_ = ros::Time::now();
         if(side_ == 1)
         {
           state_ = TURNING_RIGHT;
+          ROS_INFO("GOING_BACK -> TURNING_RIGHT");
         }
         else
         {
           state_ = TURNING_LEFT;
+          ROS_INFO("GOING_BACK -> TURNING_LEFT");
         }
-        ROS_INFO("GOING_BACK -> TURNING");
       }
 
       break;
     case TURNING_RIGHT:
 
       cmd.linear.x = 0;
-      cmd.angular.z = -0.66;
+      cmd.angular.z = turning_right_vel;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now()-turn_ts_).toSec() > turning_time )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING_RIGHT -> GOING_FORWARD");
@@ -85,9 +87,9 @@ BumpGoEficiente::step()
       break;
     case TURNING_LEFT:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.66;
+      cmd.angular.z = turning_left_vel;
 
-      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      if ((ros::Time::now()-turn_ts_).toSec() > turning_time )
       {
         state_ = GOING_FORWARD;
         ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
